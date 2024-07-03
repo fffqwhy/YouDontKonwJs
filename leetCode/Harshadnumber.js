@@ -37,3 +37,53 @@ if(sumOfTheDigitsOfHarshadNumber(23)===-1){
 if(sumOfTheDigitsOfHarshadNumber(10)===1){
     console.log("ok")
 }
+// !优化
+var sumOfTheDigitsOfHarshadNumberBetter = function(x) {
+    // 获取每一位的数字并求和
+    let sum = 0;
+    let numberX = x;
+    
+    while (numberX > 0) {
+        sum += numberX % 10;
+        numberX = Math.floor(numberX / 10);
+    }
+    
+    // 判断能否整除
+    return x % sum === 0 ? sum : -1;
+};
+// 思考，使用 字符串处理
+
+var sumOfTheDigitsOfHarshadNumber = function(x) {
+    // 将数字转换为字符串，然后分割为单个数字的数组
+    let digits = x.toString().split('');
+    // 使用reduce方法计算各位数字之和
+    let sum = digits.reduce((acc, digit) => acc + parseInt(digit), 0);
+    
+    // 判断是否为Harshad数
+    return x % sum === 0 ? sum : -1;
+};
+
+// 思考 提前算出所有数，
+
+let digitSums = [];
+var sumOfTheDigitsOfHarshadNumber2 = function(x) {
+    // 预计算出所有个位数的和
+    if(digitSums.length===0){
+    digitSums = Array.from({ length: 101 }, (_, i) => 
+        i.toString().split('').reduce((acc, digit) => acc + Number(digit), 0)
+    );
+    }
+    
+    const getSumOfDigits = num => {
+        let sum = 0;
+        while (num > 0) {
+            sum += digitSums[num % 1000];
+            num = Math.floor(num / 1000);
+        }
+        return sum;
+    };
+
+    const sum = getSumOfDigits(x);
+    
+    return x % sum === 0 ? sum : -1;
+};
