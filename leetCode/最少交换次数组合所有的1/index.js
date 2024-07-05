@@ -30,7 +30,11 @@ const minSwaps = (nums) => {
     
     // Slide the window
     for (let i = k; i < nums.length + k; i++) {
-      currentOnes += nums[i % nums.length] - nums[(i - k) % nums.length];
+      currentOnes += nums[i % nums.length] - nums[(i - k) % nums.length]; //第一次循环，往前进一位，计算这一位和离开的那一位的差值。
+      /** 
+       *                                                            |(i - k) % nums.lengt|   |k-1|,|k%nums.length|  这里取余是为了环形数组。后面你能回到第一位。
+       * [0,1,0,1,0,1] => 三个1 ； [0,1,0] maxOnes =1; 滑动窗口 =》[|          0         |,1,| 0 |,|     1       | ] 后三位， 第四位和第一位比较差。
+       */
       maxOnes = Math.max(maxOnes, currentOnes);
     }
     
